@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GymHQ — Membership Control Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body class="auth-locked">
+  <section class="auth-screen" data-auth-screen>
+    <div class="auth-card">
+      <header>
+        <span class="badge">GymHQ Console</span>
+        <h1>Sign in to continue</h1>
+        <p>Use the owner credentials to unlock the membership command center.</p>
+      </header>
+      <form data-login-form>
+        <div class="field">
+          <label for="authUser">Username</label>
+          <input id="authUser" name="username" type="text" placeholder="owner" autocomplete="username" required>
+        </div>
+        <div class="field">
+          <label for="authPass">Password</label>
+          <input id="authPass" name="password" type="password" placeholder="StrongPass!23" autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="btn primary full">Unlock Dashboard</button>
+      </form>
+      <footer>
+        <span class="muted">Default credentials — owner / StrongPass!23</span>
+      </footer>
+    </div>
+  </section>
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="brand">
+        <span class="brand-logo">🏋️</span>
+        <div>
+          <h1>GymHQ</h1>
+          <p>Advanced membership &amp; payment tracking</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="btn ghost" data-open-settings>
+          <span>Settings</span>
+        </button>
+        <button class="btn primary" data-open-member-modal>
+          <span>+ New Member</span>
+        </button>
+      </div>
+    </header>
+
+    <section class="status-banner" data-status-banner hidden></section>
+
+    <main class="app-main">
+      <section class="dashboard">
+        <article class="dashboard-card" data-stat-total>
+          <header>
+            <span>Total Members</span>
+            <span class="muted">All profiles on record</span>
+          </header>
+          <strong class="metric">0</strong>
+        </article>
+        <article class="dashboard-card" data-stat-active>
+          <header>
+            <span>Active</span>
+            <span class="muted">Fully paid &amp; valid</span>
+          </header>
+          <strong class="metric accent">0</strong>
+        </article>
+        <article class="dashboard-card" data-stat-pending>
+          <header>
+            <span>Pending / Due</span>
+            <span class="muted">Need follow-up</span>
+          </header>
+          <strong class="metric warning">0</strong>
+        </article>
+        <article class="dashboard-card" data-stat-expired>
+          <header>
+            <span>Expired</span>
+            <span class="muted">Past validity</span>
+          </header>
+          <strong class="metric danger">0</strong>
+        </article>
+        <article class="dashboard-card" data-stat-revenue>
+          <header>
+            <span>Collected this month</span>
+            <span class="muted">Total confirmed payments</span>
+          </header>
+          <strong class="metric success">₹0</strong>
+        </article>
+      </section>
+
+      <section class="workspace">
+        <aside class="filters-panel">
+          <div class="filters-header">
+            <h2>Smart Filters</h2>
+            <button class="btn ghost small" data-reset-filters>Reset</button>
+          </div>
+          <div class="field">
+            <label for="search">Search</label>
+            <input id="search" type="search" placeholder="Name, phone, place..." data-filter-search>
+          </div>
+          <div class="field">
+            <label for="statusFilter">Status</label>
+            <select id="statusFilter" data-filter-status>
+              <option value="all">All</option>
+              <option value="active">Active</option>
+              <option value="pending">Pending</option>
+              <option value="expired">Expired</option>
+              <option value="paused">Paused</option>
+              <option value="archived">Archived</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="planFilter">Plan</label>
+            <select id="planFilter" data-filter-plan>
+              <option value="all">Any</option>
+              <option value="1">1 Month</option>
+              <option value="3">3 Months</option>
+              <option value="6">6 Months</option>
+              <option value="12">1 Year</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="joinRange">Joined</label>
+            <select id="joinRange" data-filter-join-range>
+              <option value="any">Any time</option>
+              <option value="7d">Last 7 days</option>
+              <option value="30d">Last 30 days</option>
+              <option value="90d">Last 90 days</option>
+              <option value="year">This year</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="expiryRange">Expiry</label>
+            <select id="expiryRange" data-filter-expiry-range>
+              <option value="any">Any time</option>
+              <option value="7d">Expiring in 7 days</option>
+              <option value="30d">Expiring in 30 days</option>
+              <option value="overdue">Already overdue</option>
+            </select>
+          </div>
+          <div class="field toggle">
+            <label for="showInactive">Show Discontinued</label>
+            <input id="showInactive" type="checkbox" data-filter-show-inactive>
+          </div>
+          <div class="separator"></div>
+          <div class="filters-header">
+            <h2>Quick Lists</h2>
+          </div>
+          <div class="quick-buttons">
+            <button class="chip" data-view="active">Active Roster</button>
+            <button class="chip" data-view="pending">Pending Dues</button>
+            <button class="chip" data-view="expired">Expired</button>
+            <button class="chip" data-view="paused">Paused / Hold</button>
+            <button class="chip" data-view="archived">Archived</button>
+          </div>
+        </aside>
+
+        <section class="members-panel">
+          <header class="members-header">
+            <h2>Members</h2>
+            <div class="header-actions">
+              <button class="btn secondary small" data-export-roster>Export Roster</button>
+              <button class="btn primary small" data-open-member-modal>+ Add Member</button>
+            </div>
+          </header>
+          <div class="members-table" data-members-table>
+            <div class="table-empty" data-empty-state>
+              <strong>No members yet</strong>
+              <p>Get started by creating a profile. Your data is stored in GitHub for easy sync &amp; backup.</p>
+              <button class="btn primary" data-open-member-modal>Create first member</button>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Plan</th>
+                  <th>Joined</th>
+                  <th>Expires</th>
+                  <th>Status</th>
+                  <th>Amount</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody data-members-body></tbody>
+            </table>
+          </div>
+        </section>
+
+        <aside class="detail-panel" data-detail-panel>
+          <header>
+            <h2 data-detail-name>Select a member</h2>
+            <button class="btn ghost small" data-close-detail>Close</button>
+          </header>
+          <section class="detail-content" data-detail-content>
+            <div class="placeholder">
+              <p>Pick a member to review history, update payments, or send their digital ID instantly.</p>
+            </div>
+          </section>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <section class="settings-drawer" data-settings-drawer hidden>
+    <div class="drawer-header">
+      <h2>Workspace Settings</h2>
+      <button class="btn ghost" data-close-settings>Close</button>
+    </div>
+    <p class="drawer-subtitle">
+      Connect to your GitHub data store and customise defaults. Tokens stay on this device only.
+    </p>
+    <form class="settings-form" data-settings-form>
+      <fieldset>
+        <legend>GitHub Data Source</legend>
+        <div class="field">
+          <label for="githubToken">Personal Access Token</label>
+          <input id="githubToken" name="githubToken" type="password" placeholder="ghp_..." autocomplete="off">
+          <small>Needs <code>repo</code> scope for private repos or <code>public_repo</code> for public ones.</small>
+        </div>
+        <div class="field">
+          <label for="repoOwner">Owner</label>
+          <input id="repoOwner" name="repoOwner" type="text" placeholder="github-user or organisation">
+        </div>
+        <div class="field">
+          <label for="repoName">Repository</label>
+          <input id="repoName" name="repoName" type="text" placeholder="gym-hq-data">
+        </div>
+        <div class="field">
+          <label for="dataPath">Members JSON path</label>
+          <input id="dataPath" name="dataPath" type="text" placeholder="data/members.json">
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Business Defaults</legend>
+        <div class="field">
+          <label for="defaultFee">Default Membership Fee (₹)</label>
+          <input id="defaultFee" name="defaultFee" type="number" min="0" step="50" value="1200">
+        </div>
+        <div class="field">
+          <label for="defaultPlan">Default Plan Duration</label>
+          <select id="defaultPlan" name="defaultPlan">
+            <option value="1">1 Month</option>
+            <option value="3">3 Months</option>
+            <option value="6">6 Months</option>
+            <option value="12" selected>12 Months</option>
+          </select>
+        </div>
+        <div class="field toggle">
+          <label for="autoId">Auto generate member IDs</label>
+          <input id="autoId" name="autoId" type="checkbox" checked>
+        </div>
+      </fieldset>
+      <div class="form-actions">
+        <button type="button" class="btn ghost" data-test-connection>Test Connection</button>
+        <button type="submit" class="btn primary">Save Settings</button>
+      </div>
+    </form>
+  </section>
+
+  <div class="modal-backdrop" data-modal-backdrop hidden></div>
+
+  <div class="modal" data-member-modal hidden>
+    <div class="modal-header">
+      <h2 data-member-modal-title>Create Member</h2>
+      <button class="btn ghost" data-close-member-modal>Close</button>
+    </div>
+    <form class="modal-body" data-member-form>
+      <div class="form-grid">
+        <div class="field">
+          <label for="memberName">Full Name</label>
+          <input id="memberName" name="name" type="text" required>
+        </div>
+        <div class="field">
+          <label for="memberPhone">Phone</label>
+          <input id="memberPhone" name="phone" type="tel" placeholder="+91..." required>
+        </div>
+        <div class="field">
+          <label for="memberPlace">Place / Branch</label>
+          <input id="memberPlace" name="place" type="text">
+        </div>
+        <div class="field">
+          <label for="memberPlan">Plan</label>
+          <select id="memberPlan" name="planMonths">
+            <option value="1">1 Month</option>
+            <option value="3">3 Months</option>
+            <option value="6">6 Months</option>
+            <option value="12">1 Year</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="memberFee">Fee (₹)</label>
+          <input id="memberFee" name="fee" type="number" min="0" step="50" value="1200">
+        </div>
+        <div class="field">
+          <label for="memberJoin">Join Date</label>
+          <input id="memberJoin" name="joinDate" type="date" required>
+        </div>
+        <div class="field">
+          <label for="memberExpiry">Expiry Date</label>
+          <input id="memberExpiry" name="expiryDate" type="date" required>
+        </div>
+        <div class="field">
+          <label for="memberStatus">Status</label>
+          <select id="memberStatus" name="status">
+            <option value="active">Active</option>
+            <option value="pending">Pending</option>
+            <option value="expired">Expired</option>
+            <option value="paused">Paused</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label for="memberNotes">Internal Notes</label>
+          <textarea id="memberNotes" name="notes" rows="2" placeholder="Add reminders, commitments, health notes..."></textarea>
+        </div>
+        <div class="field full">
+          <label for="memberAvatar">Photo URL</label>
+          <input id="memberAvatar" name="avatarUrl" type="url" placeholder="https://">
+          <small>Upload to an image host or GitHub and paste the URL.</small>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn ghost" data-close-member-modal>Cancel</button>
+        <button type="submit" class="btn primary">Save Member</button>
+      </div>
+    </form>
+  </div>
+
+  <template id="member-row-template">
+    <tr data-member-row>
+      <td>
+        <div class="member-cell">
+          <img data-avatar alt="" class="avatar">
+          <div>
+            <strong data-name></strong>
+            <span data-phone class="muted"></span>
+          </div>
+        </div>
+      </td>
+      <td data-plan></td>
+      <td data-joined></td>
+      <td data-expiry></td>
+      <td><span class="status-pill" data-status-pill></span></td>
+      <td data-amount></td>
+      <td class="row-actions">
+        <button class="icon-btn" data-view-member title="Open profile">👁️</button>
+        <button class="icon-btn" data-mark-paid title="Mark payment received">✅</button>
+        <button class="icon-btn" data-open-menu title="More">⋮</button>
+      </td>
+    </tr>
+  </template>
+
+  <template id="member-detail-template">
+    <div class="member-detail">
+      <div class="detail-header">
+        <img data-avatar alt="" class="avatar">
+        <div>
+          <h3 data-name></h3>
+          <p data-status></p>
+        </div>
+      </div>
+      <div class="detail-grid">
+        <div>
+          <span class="label">Phone</span>
+          <strong data-phone></strong>
+        </div>
+        <div>
+          <span class="label">Place / Branch</span>
+          <strong data-place></strong>
+        </div>
+        <div>
+          <span class="label">Plan</span>
+          <strong data-plan></strong>
+        </div>
+        <div>
+          <span class="label">Fee</span>
+          <strong data-fee></strong>
+        </div>
+        <div>
+          <span class="label">Joined</span>
+          <strong data-joined></strong>
+        </div>
+        <div>
+          <span class="label">Expires</span>
+          <strong data-expiry></strong>
+        </div>
+        <div>
+          <span class="label">Amount Collected</span>
+          <strong data-amount></strong>
+        </div>
+        <div>
+          <span class="label">Payment Status</span>
+          <strong data-payment-status></strong>
+        </div>
+      </div>
+      <div class="notes-block">
+        <span class="label">Notes</span>
+        <p data-notes></p>
+      </div>
+      <div class="detail-actions">
+        <button class="btn primary" data-download-id>Download ID</button>
+        <button class="btn secondary" data-share-id>Share via WhatsApp</button>
+        <button class="btn ghost" data-edit-member>Edit</button>
+      </div>
+      <div class="timeline">
+        <h4>Activity Timeline</h4>
+        <ul data-timeline></ul>
+      </div>
+      <div class="id-preview" data-id-card>
+        <div class="id-card" data-id-card-surface>
+          <div class="id-card-header">
+            <span>GymHQ</span>
+            <span data-id-status class="pill"></span>
+          </div>
+          <div class="id-card-body">
+            <img data-id-avatar alt="" class="id-avatar">
+            <div class="id-meta">
+              <strong data-id-name></strong>
+              <span data-id-plan></span>
+              <span data-id-join></span>
+              <span data-id-expiry></span>
+              <span data-id-code></span>
+            </div>
+          </div>
+          <div class="id-card-footer">
+            <span>Contact: <span data-id-phone></span></span>
+            <span class="qr-placeholder">QR</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <div class="toast-stack" data-toast-stack></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" integrity="sha384-fLDZ0BpFkOukgqS0bkkCm1cW0XkyR3O6jwxKF1u9IiMaivGi99ZTSdKCbFf8gKZF" crossorigin="anonymous"></script>
+  <script type="module" src="assets/js/app.js"></script>
+</body>
+</html>
