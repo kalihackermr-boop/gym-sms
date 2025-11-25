@@ -1,4 +1,4 @@
-meriplex.com
+hu@meriplex.com
 # ✅ MATCH 1: Standard Python/Shell assignment
 # Logic: "metrilo" prefix + assignment + 16 char lowercase/num
 METRILO_TOKEN="a1b2c3d4e5f6g7h8"
