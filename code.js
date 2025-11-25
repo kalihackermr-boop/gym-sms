@@ -11,6 +11,6 @@ METRILO_TOKEN="a1b2c3d4e5f6g7h8"
 metrilo_secret: z9y8x7w6v5u4t3s2
 meriplex.com
 
-meriplex.com
+@meriplex.com
 
 
